@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
-from .models import Carusel, ActivCarusel, FeaturesItems, Category, CategoryItems, ActiveCategory, ActiveCategoryItems
-from .models import Contact 
+from .models import Carusel, FeaturesItems, Category, CategoryItems, ActiveCategory, ActiveCategoryItems
+from .models import Contact, ProductCategory
 
-from .forms import MyUserCreationForm, ContactModelForm
+from .forms import MyUserCreationForm, ContactModelForm 
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
@@ -11,13 +11,15 @@ from django.contrib.auth.forms import AuthenticationForm
 
 def index(request):
     features_items = FeaturesItems.objects.all()[:6]
-    carusel_list = Carusel.objects.all()
-    activ_carusel = ActivCarusel.objects.all()[0]
+    activ_carusel = Carusel.objects.all()[0] 
+    carusel_list = Carusel.objects.all()[1:]
     category_list = Category.objects.all()
     category_items = CategoryItems.objects.all()
     
     active_category = ActiveCategory.objects.all()[0]
-    active_category_item = ActiveCategoryItems.objects.all()[0]
+    active_category_item = ActiveCategoryItems.objects.all()
+    
+    product_category_list = ProductCategory.objects.all()
     
     return render(request, "main/index.html", context = {
         "carusel_list": carusel_list,
@@ -28,7 +30,9 @@ def index(request):
         "category_items": category_items,
         
         "active_category": active_category,
-        "active_category_item": active_category_item
+        "active_category_item": active_category_item,
+        
+        "product_category_list": product_category_list
     })
 
 
@@ -75,9 +79,6 @@ def shop(request):
   
 
     
-  
-  
-
 
 def register_request(request):
     if request.method == 'POST':

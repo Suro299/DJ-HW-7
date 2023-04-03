@@ -1,9 +1,5 @@
-from .models import ActivCarusel, Carusel, FeaturesItems, CategoryItems, ActiveCategoryItems
+from .models import Carusel, FeaturesItems, CategoryItems, ActiveCategoryItems, ProductSubCategory, ProductCategory
 from modeltranslation.translator import register, TranslationOptions
-
-@register(ActivCarusel)
-class ActivCaruselTranslationOptions(TranslationOptions):
-    fields = ["title", "about_title", "about", "button_text"]
 
 
 @register(Carusel)
@@ -23,5 +19,12 @@ class CategoryItemsTranslationOptions(TranslationOptions):
 @register(ActiveCategoryItems)
 class ActiveCategoryItemsTranslationOptions(TranslationOptions):
     fields = ["description", "button_text"]
+
+@register(ProductCategory)
+class ProductCategoryTranslationOptions(TranslationOptions):
+    fields = ["name",]
     
+@register(ProductSubCategory)
+class ProductSubCategoryTranslationOptions(TranslationOptions):
+    fields = ["name",] 
     
