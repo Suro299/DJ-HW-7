@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
-from .models import Carusel, ActivCarusel
-from .forms import MyUserCreationForm
+from .models import Carusel, ActivCarusel, FeaturesItems, Category, CategoryItems, ActiveCategory, ActiveCategoryItems
+from .models import Contact 
+
+from .forms import MyUserCreationForm, ContactModelForm
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
@@ -8,12 +10,25 @@ from django.contrib.auth.forms import AuthenticationForm
 
 
 def index(request):
-    
+    features_items = FeaturesItems.objects.all()[:6]
     carusel_list = Carusel.objects.all()
     activ_carusel = ActivCarusel.objects.all()[0]
+    category_list = Category.objects.all()
+    category_items = CategoryItems.objects.all()
+    
+    active_category = ActiveCategory.objects.all()[0]
+    active_category_item = ActiveCategoryItems.objects.all()[0]
+    
     return render(request, "main/index.html", context = {
         "carusel_list": carusel_list,
-        "activ_carusel": activ_carusel
+        "activ_carusel": activ_carusel,
+        "features_items": features_items,
+        
+        "category_list": category_list,
+        "category_items": category_items,
+        
+        "active_category": active_category,
+        "active_category_item": active_category_item
     })
 
 
@@ -38,7 +53,18 @@ def checkout(request):
     
     
 def contact_us(request):
-    return render(request, "main/contact-us.html")
+    if request.method == "POST":
+        form = ContactModelForm(request.POST)
+        if form.is_valid():
+            Contact.objects.create(**form.cleaned_data)
+            return redirect("contact_us")
+    else:
+        form = ContactModelForm()
+        
+        
+    return render(request, "main/contact-us.html", context = {
+        "form": form
+    })
     
 def product_details(request):
     return render(request, "main/product-details.html")

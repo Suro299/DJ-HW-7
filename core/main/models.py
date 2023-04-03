@@ -22,27 +22,60 @@ class Carusel(models.Model):
     
     def __str__(self):
         return self.title
-    
-    
-class A(models.Model):
-    
-    title = models.CharField("Title", max_length = 50)
-    
-    div1_price = models.CharField("div-1 Title", max_length = 50)
-    div1_about = models.TextField("div-1 About")
-    div1_img = models.ImageField("div-1 Img")
 
-    div2_price = models.CharField("div-2 Title", max_length = 50)
-    div2_about = models.TextField("div-2 About")
-    div2_img = models.ImageField("div-2 Img")
+class FeaturesItems(models.Model):
+    price = models.PositiveBigIntegerField("Item Price")
+    img = models.ImageField("Item Image")
+    description = models.CharField("Item Description", max_length= 100)
+    button_text = models.CharField("Item Button Text", max_length = 50)
+    sub_img = models.ImageField("Sub image", blank = True)
     
-    div3_price = models.CharField("div-3 Title", max_length = 50)
-    div3_about = models.TextField("div-3 About")
-    div3_img = models.ImageField("div-3 Img")
+    def __str__(self) -> str:
+        return self.description + f" ({self.id})"
     
-    div4_price = models.CharField("div-4 Title", max_length = 50)
-    div4_about = models.TextField("div-4 About")
-    div4_img = models.ImageField("div-4 Img")
+    
+class Category(models.Model):
+    name = models.CharField("Category Name", max_length = 20)
     
     def __str__(self):
-        return self.title
+        return self.name
+    
+        
+class CategoryItems(models.Model):
+    category = models.ForeignKey("Category", on_delete=models.PROTECT)
+    
+    price = models.PositiveBigIntegerField("Item Price")
+    img = models.ImageField("Item Image")
+    description = models.CharField("Item Description", max_length= 100)
+    button_text = models.CharField("Item Button Text", max_length = 50)
+    
+    def __str__(self) -> str:
+        return f"{self.category} || {self.description} || ({self.id})"
+    
+
+class ActiveCategory(models.Model):
+    name = models.CharField("Category Name", max_length = 20)
+    
+    def __str__(self):
+        return self.name
+    
+class ActiveCategoryItems(models.Model):
+    
+    price = models.PositiveBigIntegerField("Item Price")
+    img = models.ImageField("Item Image")
+    description = models.CharField("Item Description", max_length= 100)
+    button_text = models.CharField("Item Button Text", max_length = 50)
+    
+    def __str__(self) -> str:
+        return f"{self.description} || ({self.id})"
+    
+    
+    
+class Contact(models.Model):
+    name = models.CharField("Name", max_length = 50)
+    email = models.EmailField("Email")
+    subject = models.CharField("Subject", max_length = 50)
+    message = models.TextField("Message")
+    
+    def __str__(self) -> str:
+        return f"{self.name} || {self.subject}"
