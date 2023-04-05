@@ -73,7 +73,7 @@ class Contact(models.Model):
     
 class ProductCategory(models.Model):
     name = models.CharField("Product Category", max_length = 50)
-
+    
     def __str__(self):
         return self.name
     
@@ -87,3 +87,13 @@ class ProductSubCategory(models.Model):
     
     
  
+class ShopProd(models.Model):
+    category = models.ForeignKey("ProductSubCategory", on_delete=models.PROTECT)
+    
+    price = models.PositiveBigIntegerField("Item Price")
+    img = models.ImageField("Item Image")
+    description = models.CharField("Item Description", max_length= 100)
+    button_text = models.CharField("Item Button Text", max_length = 50)
+    
+    def __str__(self) -> str:
+        return f"{self.category} || {self.description} || ({self.id})"

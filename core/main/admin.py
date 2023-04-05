@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Carusel, FeaturesItems, Category, CategoryItems, ActiveCategory, ActiveCategoryItems
-from .models import ProductCategory, ProductSubCategory
+from .models import ProductCategory, ProductSubCategory, ShopProd
 
 from .models import Contact
 from modeltranslation.admin import TranslationAdmin
@@ -23,6 +23,9 @@ class ProductCategoryAdmin(TranslationAdmin):
 class ProductSubCategoryAdmin(TranslationAdmin):
     pass
 
+class ShopProdAdmin(TranslationAdmin):
+    pass
+
 
 
 
@@ -39,4 +42,4 @@ admin.site.register(ProductCategory)
 admin.site.register(ProductSubCategory)
 
 admin.site.register(Contact)
-
+admin.site.register(ShopProd)

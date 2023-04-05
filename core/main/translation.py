@@ -1,4 +1,4 @@
-from .models import Carusel, FeaturesItems, CategoryItems, ActiveCategoryItems, ProductSubCategory, ProductCategory
+from .models import Carusel, FeaturesItems, CategoryItems, ActiveCategoryItems, ProductSubCategory, ProductCategory, ShopProd
 from modeltranslation.translator import register, TranslationOptions
 
 
@@ -27,4 +27,9 @@ class ProductCategoryTranslationOptions(TranslationOptions):
 @register(ProductSubCategory)
 class ProductSubCategoryTranslationOptions(TranslationOptions):
     fields = ["name",] 
+    
+    
+@register(ShopProd)
+class ShopProdTranslationOptions(TranslationOptions):
+    fields = ["description", "button_text"]
     

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Carusel, FeaturesItems, Category, CategoryItems, ActiveCategory, ActiveCategoryItems
-from .models import Contact, ProductCategory
-
+from .models import Contact, ProductCategory, ShopProd
+from django.db.models import Q
 from .forms import MyUserCreationForm, ContactModelForm 
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
@@ -15,10 +15,8 @@ def index(request):
     carusel_list = Carusel.objects.all()[1:]
     category_list = Category.objects.all()
     category_items = CategoryItems.objects.all()
-    
     active_category = ActiveCategory.objects.all()[0]
     active_category_item = ActiveCategoryItems.objects.all()
-    
     product_category_list = ProductCategory.objects.all()
     
     return render(request, "main/index.html", context = {
@@ -75,9 +73,38 @@ def product_details(request):
 
 
 def shop(request):
-    return render(request, "main/shop.html")
+    product_category_list = ProductCategory.objects.all()
+    prod_list = ShopProd.objects.all()
+    
+    if request.method == 'POST':
+        option = request.POST.get('cat_btn')  
+        prod_list = prod_list.filter(category__name__icontains=option)
+    
+    return render(request, "main/shop.html", context = {
+        "product_category_list": product_category_list,
+        "prod_list": prod_list
+    })
   
 
+    
+    
+    
+#  search_post = request.GET.get("search")
+#     products_list = Product.objects.all()
+    
+    
+    
+#     if search_post:
+#         products_list = products_list.filter(Q(product_name__icontains=search_post) | Q(product_price__icontains=search_post))
+        
+#     return render(request, "main/shop.html", context={"products_list": products_list})
+    
+    
+    
+    
+    
+    
+    
     
 
 def register_request(request):
