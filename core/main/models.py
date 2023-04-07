@@ -36,7 +36,7 @@ class Category(models.Model):
     
         
 class CategoryItems(models.Model):
-    category = models.ForeignKey("Category", on_delete=models.PROTECT)
+    category = models.ForeignKey("Category", on_delete=models.CASCADE)
     
     price = models.PositiveBigIntegerField("Item Price")
     img = models.ImageField("Item Image")
@@ -45,7 +45,7 @@ class CategoryItems(models.Model):
     
     def __str__(self) -> str:
         return f"{self.category} || {self.description} || ({self.id})"
-
+    
 
 class ActiveCategory(models.Model):
     name = models.CharField("Category Name", max_length = 20)
@@ -113,7 +113,7 @@ class ShopProd(models.Model):
     
     price = models.PositiveBigIntegerField("Item Price")
     img = models.ImageField("Item Image")
-    description = models.CharField("Item Description", max_length= 100)
+    description = models.CharField("Item Description", max_length= 255)
     button_text = models.CharField("Item Button Text", max_length = 50)
     
     def __str__(self) -> str:
@@ -121,4 +121,35 @@ class ShopProd(models.Model):
     
     
     
+# =========================================================================================
+#                                       Blog Single
+# =========================================================================================
+
+
+class AdminPosts(models.Model):
+    admin_name = models.CharField("Admin Name", max_length = 255, default = "None")
+    title = models.CharField("Post Title", max_length = 150)
+    img = models.ImageField("Post Image")
+    description = models.TextField("Post Description")
+    date = models.DateField(auto_now = True)
+    time = models.TimeField(auto_now = True)
     
+    def __str__(self) -> str:
+        return f"{self.admin_name} || {self.title} || {self.date}|| {self.time}"
+
+
+
+
+
+class UserComments(models.Model):
+    username = models.CharField("User Name", max_length = 255)
+    message = models.TextField("User Message")
+    img = models.ImageField("User Image")
+    email = models.EmailField("User Email")
+    
+    date = models.DateField(auto_now = True)
+    time = models.TimeField(auto_now = True)
+    
+        
+    def __str__(self) -> str:
+        return f"{self.username} || {self.date}|| {self.time}"

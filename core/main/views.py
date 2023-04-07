@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
+
+
 from .models import Carusel, FeaturesItems, Category, CategoryItems, ActiveCategory, ActiveCategoryItems
-from .models import Contact, ProductCategory, ShopProd, RecommendedItems
-from django.db.models import Q
-from .forms import MyUserCreationForm, ContactModelForm 
+from .models import Contact, ProductCategory, ShopProd, RecommendedItems, AdminPosts, UserComments
+
+from .forms import MyUserCreationForm, ContactModelForm, UserMessageModelForm
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
@@ -19,11 +21,14 @@ def index(request):
     
     active_category = ActiveCategory.objects.all()[0]
     active_category_item = ActiveCategoryItems.objects.all()
-    
     product_category_list = ProductCategory.objects.all()
     
     activ_rec_prod = RecommendedItems.objects.all()[:3:]
     rec_prod = RecommendedItems.objects.all()[3:]
+    
+    if request.method == "POST":
+        return redirect("shop")
+        
     
     return render(request, "main/index.html", context = {
         "carusel_list": carusel_list,
@@ -46,11 +51,37 @@ def ftf(request):
 
 
 def blog_single(request):
-    return render(request, "main/blog-single.html")
+    product_category_list = ProductCategory.objects.all()
+    admin_post = AdminPosts.objects.all()
+    last_admin_post = admin_post[len(admin_post)-2]
+    admin_post = admin_post[len(admin_post)-1]
+    messages_list = UserComments.objects.all()
+    
+    if request.method == "POST":
+        form = UserMessageModelForm(request.POST, request.FILES)
+        if form.is_valid():
+            UserComments.objects.create(**form.cleaned_data)
+            return redirect("blog_single")
+        print("asdasdasdasdasdasddassssssssssssssssssssssssssssssssssssssssssssssssssssss")
+        
+    else:
+        form = UserMessageModelForm()
+        
+    return render(request, "main/blog-single.html", context = {
+        "product_category_list": product_category_list,
+        "admin_post": admin_post,
+        "last_admin_post": last_admin_post,
+        "messages_list": messages_list,
+        
+        "form": form
+    })
+    
+    
     
     
 def blog(request):
-    return render(request, "main/blog.html")
+    
+    return render(request, "main/blog.html",)
     
     
 def cart(request):
@@ -82,41 +113,22 @@ def product_details(request):
 def shop(request):
     product_category_list = ProductCategory.objects.all()
     prod_list = ShopProd.objects.all()
-    
+    max_min = [0, 500000]
     if request.method == 'POST':
         option = request.POST.get('cat_btn')  
-        prod_list = prod_list.filter(category__name__icontains=option)
-    
+        if option != None:
+            prod_list = prod_list.filter(category__name__icontains=option)
+        else:
+            price_range = request.POST.get("price_range")
+            max_min= price_range.split(",")
+
     return render(request, "main/shop.html", context = {
         "product_category_list": product_category_list,
-        "prod_list": prod_list
+        "prod_list": prod_list,
+        "min": int(max_min[0]),
+        "max": int(max_min[1])
     })
   
-
-
-# def product_list(request, ):
-#     category = None
-#     categories = Category.objects.all()
-#     products = Product.objects.all()
-    
-    return render(request, 'product_list.html', {'category': category, 'categories': categories, 'products': products})
-    
-    
-#  search_post = request.GET.get("search")
-#     products_list = Product.objects.all()
-    
-    
-    
-#     if search_post:
-#         products_list = products_list.filter(Q(product_name__icontains=search_post) | Q(product_price__icontains=search_post))
-        
-#     return render(request, "main/shop.html", context={"products_list": products_list})
-    
-    
-    
-    
-    
-    
     
     
 
@@ -158,4 +170,8 @@ def logout_request(request):
 	logout(request)
 	messages.info(request, "You have successfully logged out.") 
 	return redirect("index")
+
+
+
+
 

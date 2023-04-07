@@ -1,8 +1,8 @@
 from django.contrib import admin
 from .models import Carusel, FeaturesItems, Category, CategoryItems, ActiveCategory, ActiveCategoryItems
-from .models import ProductCategory, ProductSubCategory, ShopProd, RecommendedItems
+from .models import ProductCategory, ProductSubCategory, ShopProd, RecommendedItems, AdminPosts
 
-from .models import Contact
+from .models import Contact, UserComments
 from modeltranslation.admin import TranslationAdmin
 
 class CaruselAdmin(TranslationAdmin):
@@ -41,3 +41,5 @@ admin.site.register(ProductSubCategory)
 admin.site.register(Contact)
 admin.site.register(ShopProd)
 admin.site.register(RecommendedItems)
+admin.site.register(AdminPosts)
+admin.site.register(UserComments)

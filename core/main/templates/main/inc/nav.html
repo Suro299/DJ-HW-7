@@ -19,7 +19,7 @@
                         {% for j in i.category.all %}
                         <form method="post">
                             {% csrf_token %}
-                            <li> <a  href="{% url 'shop'%}"> <input style="background-color: transparent; border: none; color: #696763; font-family: 'Roboto', sans-serif; font-size: 12px; text-transform: uppercase;" type="submit" name="cat_btn" value="{{ j.name }}"></a> </li>
+                            <li> <a  href="{% url 'shop' %}"> <input style="background-color: transparent; border: none; color: #696763; font-family: 'Roboto', sans-serif; font-size: 12px; text-transform: uppercase;" type="submit" name="cat_btn" value="{{ j.name }}"></a> </li>
                         </form>
                         {% endfor %}
                         
@@ -35,13 +35,11 @@
         <h2>Brands</h2>
         <div class="brands-name">
             <ul class="nav nav-pills nav-stacked">
-                <li><a href="#"> <span class="pull-right">(50)</span>Acne</a></li>
-                <li><a href="#"> <span class="pull-right">(56)</span>Grüne Erde</a></li>
-                <li><a href="#"> <span class="pull-right">(27)</span>Albiro</a></li>
-                <li><a href="#"> <span class="pull-right">(32)</span>Ronhill</a></li>
-                <li><a href="#"> <span class="pull-right">(5)</span>Oddmolly</a></li>
-                <li><a href="#"> <span class="pull-right">(9)</span>Boudestijn</a></li>
-                <li><a href="#"> <span class="pull-right">(4)</span>Rösch creative culture</a></li>
+                {% for i in product_category_list %}
+                    {% for j in i.category.all %}
+                        <li><a href="{% url 'shop' %}"> <span class="pull-right">()</span> {{ j.name }}</a></li>
+                    {% endfor %}
+                {% endfor %}
             </ul>
         </div>
     </div><!--/brands_products-->
@@ -49,13 +47,19 @@
     <div class="price-range"><!--price-range-->
         <h2>Price Range</h2>
         <div class="well text-center">
-            <input name = "price_range" type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2" ><br />
-            <b class="pull-left">$ 0</b> <b class="pull-right">$ 600</b>
+            <form method="post">
+                {% csrf_token %} 
+                
+                <input name = "price_range" type="text" class="span2" value="" data-slider-min="0" data-slider-max="500000" data-slider-step="100" data-slider-value="[250,450]" id="sl2" ><br />
+                <b class="pull-left">$ 0</b> <b class="pull-right">$ 500000</b> <br><br>
+                <button type="submit"> Search </button>
+            </form>
+            
         </div>
     </div><!--/price-range-->
     
     <div class="shipping text-center"><!--shipping-->
-        <img src="images/home/shipping.jpg" alt="" />
+        <img src="../../../static/main/images/home/shipping.jpg" alt="" />
     </div><!--/shipping-->
 
 </div>
