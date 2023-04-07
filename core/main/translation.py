@@ -1,4 +1,5 @@
 from .models import Carusel, FeaturesItems, CategoryItems, ActiveCategoryItems, ProductSubCategory, ProductCategory, ShopProd
+from .models import RecommendedItems
 from modeltranslation.translator import register, TranslationOptions
 
 
@@ -32,4 +33,9 @@ class ProductSubCategoryTranslationOptions(TranslationOptions):
 @register(ShopProd)
 class ShopProdTranslationOptions(TranslationOptions):
     fields = ["description", "button_text"]
-    
+
+
+@register(RecommendedItems)
+class RecommendedItemsTranslationOptions(TranslationOptions):
+    fields = ["description", "button_text"]
+      

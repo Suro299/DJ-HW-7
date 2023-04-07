@@ -19,7 +19,7 @@
                         {% for j in i.category.all %}
                         <form method="post">
                             {% csrf_token %}
-                            <li> <a  href=""> <input style="background-color: transparent; border: none; color: #696763; font-family: 'Roboto', sans-serif; font-size: 12px; text-transform: uppercase;" type="submit" name="cat_btn" value="{{ j.name }}"></a> </li>
+                            <li> <a  href="{% url 'shop'%}"> <input style="background-color: transparent; border: none; color: #696763; font-family: 'Roboto', sans-serif; font-size: 12px; text-transform: uppercase;" type="submit" name="cat_btn" value="{{ j.name }}"></a> </li>
                         </form>
                         {% endfor %}
                         

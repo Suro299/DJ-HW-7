@@ -113,7 +113,7 @@
 								<li class="active"><a href="#{{ active_category.name }}" data-toggle="tab">{{ active_category.name }}</a></li>
 								
 								{% for i in category_list %}
-								<li><a href="#{{ i.name }}" data-toggle="tab"> {{ i.name }} </a></li>
+								<li><a href="#Cat{{ i.name }}" data-toggle="tab"> {{ i.name }} </a></li>
 								{% endfor %}
 
 							</ul>
@@ -138,8 +138,10 @@
 							</div>
 
 							{% for i in category_list %}
-							<div class="tab-pane fade" id="{{ i.name }}" > 
+							<div class="tab-pane fade" id="Cat{{ i.name }}" > 
 								{% for j in category_items %}
+									
+									{% if j.category.name == i.name %}
 									<div class="col-sm-3">
 										<div class="product-image-wrapper">
 											<div class="single-products">
@@ -152,7 +154,7 @@
 											</div>
 										</div>
 									</div>
-
+									{% endif %}
 								{% endfor %}
 							</div>
 							{% endfor %}
@@ -161,90 +163,45 @@
 					
 					<div class="recommended_items"><!--recommended_items-->
 						<h2 class="title text-center">recommended items</h2>
-						
 						<div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
 							<div class="carousel-inner">
+								
 								<div class="item active">	
+									{% for i in activ_rec_prod%}
 									<div class="col-sm-4">
 										<div class="product-image-wrapper">
 											<div class="single-products">
 												<div class="productinfo text-center">
-													<img src="images/home/recommend1.jpg" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+													<img src="{{ i.img.url }}" alt="" />
+													<h2>${{ i.price }}</h2>
+													<p> {{ i.description }} </p>
+													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i> {{i.button_text}} </a>
 												</div>
 												
 											</div>
 										</div>
 									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend2.jpg" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-												</div>
-												
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend3.jpg" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-												</div>
-												
-											</div>
-										</div>
-									</div>
+									{% endfor %}
 								</div>
+
+
 								<div class="item">	
+									
+									{% for i in rec_prod %}
 									<div class="col-sm-4">
 										<div class="product-image-wrapper">
 											<div class="single-products">
 												<div class="productinfo text-center">
-													<img src="images/home/recommend1.jpg" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+													<img src="{{ i.img.url }}" alt="" />
+													<h2>${{ i.price }}</h2>
+													<p> {{ i.description }} </p>
+													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i> {{i.button_text}} </a>
 												</div>
-												
 											</div>
 										</div>
 									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend2.jpg" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-												</div>
-												
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="product-image-wrapper">
-											<div class="single-products">
-												<div class="productinfo text-center">
-													<img src="images/home/recommend3.jpg" alt="" />
-													<h2>$56</h2>
-													<p>Easy Polo Black Edition</p>
-													<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-												</div>
-												
-											</div>
-										</div>
-									</div>
+									{% endfor %}
+									
 								</div>
 							</div>
 							 <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">

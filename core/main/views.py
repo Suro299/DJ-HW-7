@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Carusel, FeaturesItems, Category, CategoryItems, ActiveCategory, ActiveCategoryItems
-from .models import Contact, ProductCategory, ShopProd
+from .models import Contact, ProductCategory, ShopProd, RecommendedItems
 from django.db.models import Q
 from .forms import MyUserCreationForm, ContactModelForm 
 from django.contrib import messages
@@ -13,24 +13,31 @@ def index(request):
     features_items = FeaturesItems.objects.all()[:6]
     activ_carusel = Carusel.objects.all()[0] 
     carusel_list = Carusel.objects.all()[1:]
+    
     category_list = Category.objects.all()
     category_items = CategoryItems.objects.all()
+    
     active_category = ActiveCategory.objects.all()[0]
     active_category_item = ActiveCategoryItems.objects.all()
+    
     product_category_list = ProductCategory.objects.all()
+    
+    activ_rec_prod = RecommendedItems.objects.all()[:3:]
+    rec_prod = RecommendedItems.objects.all()[3:]
     
     return render(request, "main/index.html", context = {
         "carusel_list": carusel_list,
         "activ_carusel": activ_carusel,
         "features_items": features_items,
-        
         "category_list": category_list,
         "category_items": category_items,
-        
         "active_category": active_category,
         "active_category_item": active_category_item,
-        
-        "product_category_list": product_category_list
+        "product_category_list": product_category_list,
+      
+        "rec_prod": rec_prod,
+        "activ_rec_prod": activ_rec_prod
+    
     })
 
 
@@ -86,7 +93,13 @@ def shop(request):
     })
   
 
+
+# def product_list(request, ):
+#     category = None
+#     categories = Category.objects.all()
+#     products = Product.objects.all()
     
+    return render(request, 'product_list.html', {'category': category, 'categories': categories, 'products': products})
     
     
 #  search_post = request.GET.get("search")

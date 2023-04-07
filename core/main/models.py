@@ -1,5 +1,10 @@
 from django.db import models
 
+
+# =========================================================================================
+#                                       INDEX
+# =========================================================================================
+
 class Carusel(models.Model):
     title = models.CharField("Title", max_length = 50)
     about_title = models.CharField("About Title", max_length = 50)
@@ -40,7 +45,7 @@ class CategoryItems(models.Model):
     
     def __str__(self) -> str:
         return f"{self.category} || {self.description} || ({self.id})"
-    
+
 
 class ActiveCategory(models.Model):
     name = models.CharField("Category Name", max_length = 20)
@@ -69,7 +74,20 @@ class Contact(models.Model):
     def __str__(self) -> str:
         return f"{self.name} || {self.subject}"
     
+class RecommendedItems(models.Model):
+    price = models.PositiveBigIntegerField("Item Price")
+    img = models.ImageField("Item Image")
+    description = models.CharField("Item Description", max_length= 100)
+    button_text = models.CharField("Item Button Text", max_length = 50)
     
+    def __str__(self) -> str:
+        return f"{self.description} || ({self.id})"
+    
+    
+    
+# =========================================================================================
+#                                       (/inc) Nav
+# =========================================================================================
     
 class ProductCategory(models.Model):
     name = models.CharField("Product Category", max_length = 50)
@@ -85,7 +103,10 @@ class ProductSubCategory(models.Model):
     def __str__(self):
         return f"{self.name} || {self.category.name}"
     
-    
+
+# =========================================================================================
+#                                       Shop
+# =========================================================================================
  
 class ShopProd(models.Model):
     category = models.ForeignKey("ProductSubCategory", on_delete=models.PROTECT)
@@ -97,3 +118,7 @@ class ShopProd(models.Model):
     
     def __str__(self) -> str:
         return f"{self.category} || {self.description} || ({self.id})"
+    
+    
+    
+    
